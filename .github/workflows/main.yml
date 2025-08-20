@@ -23,38 +23,17 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Zowe CLI
-        run: npm install -g @zowe/cli
-
-      - name: Create Zowe CLI Profile using config
-        env:
-          ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-          ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-          ZOWE_HOST: ${{ secrets.ZOWE_HOST }}
-        run: |
-          mkdir -p ./zowe-config
-          cd ./zowe-config
-          zowe config init --global-config false
-          zowe config set profiles.zosmf.host $ZOWE_HOST
-          zowe config set profiles.zosmf.port 443
-          zowe config set profiles.zosmf.user $ZOWE_USERNAME
-          zowe config set profiles.zosmf.password $ZOWE_PASSWORD
-          zowe config set profiles.zosmf.rejectUnauthorized false
-          zowe config set defaultProfile.zosmf zosmf
-          cd ..
-
       - name: Setup Mainframe Environment and Upload COBOL Check
         env:
           ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
           ZOWE_CONFIG_DIR: ./zowe-config
         run: |
           chmod +x .github/scripts/zowe_operations.sh
-          .github/scripts/zowe_operations.sh
-
+          
       - name: Run COBOL Check on Mainframe
         env:
           ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
           ZOWE_CONFIG_DIR: ./zowe-config
         run: |
           chmod +x .github/scripts/mainframe_operations.sh
-          .github/scripts/mainframe_operations.sh
+          
