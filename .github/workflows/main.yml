@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p ./zowe-config
           cd ./zowe-config
-          zowe config init --global-config false --force
+          zowe config init --global-config false
           zowe config set profiles.zosmf.host $ZOWE_HOST
           zowe config set profiles.zosmf.port 443
           zowe config set profiles.zosmf.user $ZOWE_USERNAME
